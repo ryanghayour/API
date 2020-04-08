@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<title>Movie API</title>
+	<meta charset="utf-8"/>
+	<script>
+		function API() {
+			document.getElementById("data").innerHTML = "";
+			request = new XMLHttpRequest(); 
+
+			request.onreadystatechange = function() {
+ 
+				if (request.readyState == 4 && request.status == 200) {
+
+					
+
+					result = request.responseText;
+					var content = JSON.parse(result);
+					console.log(content)
+					
+					// for (i = 0; i < content.items.length; i++){
+						// var item = content.items[i];
+						document.getElementById("data").innerHTML += "<br><br>" + "Title: " + content.Title + "<br>Year: " + content.Year + "<br>Rated: " + content.Rated + "<br> Genre: " + content.Genre + "<br> Actors: " + content.Actors + "<br> Plot: " + content.Plot + "<br> Metascore: " + content.Metascore;
+					// } 
+					
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+
+			}
+			request.open("GET", `http://www.omdbapi.com/?t=${document.getElementById("movie").value}&apikey=649b0448`, true);
+			request.send();
+		}
+	</script>
+</head>
+<body>
+
+
+
+	<h2>Assignment Responses</h2>
+	<br><div>- I selected the omdb movie database api, it contains data about movies. <div>
+	<br><div>- I found it on omdbapi.com</div>
+	<br><div>- I used a GET request to get the API data based on the title of the movie, and discerned the rest of the information about the movie using that request</div>
+	<br><div>- This API would be useful for finding the genre of a movie, its release date, or the actors that played in it </div><br><br><br>
+	<h1>Movie Search List</h1>
+	<form onsubmit="API(event.preventDefault())">
+	<label for="movie">Search Movie by Title:</label>
+	<input type="text" id="movie" name="movie" placeholder="Austin Powers">
+	<button>Search</button>
+	<div id="data"></div>
+	</form>
+</body>
+</html>
